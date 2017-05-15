@@ -1,0 +1,137 @@
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <title>资源环境</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/webglobeMain.css" rel="stylesheet" media="screen">
+    <link href="js/jqwidgets-4.4.0/jqwidgets/styles/jqx.base.css" rel="stylesheet">
+    <link href="css/sticky-footer-navbar.css" rel="stylesheet">
+    <style>
+        @import url(js/cesium-1.12/Widgets/widgets.css);
+        #main-nav li>a
+        {
+            font-family:"Times New Roman",Georgia,Serif
+        }
+    </style>
+</head>
+<body oncontextmenu="window.event.returnvalue=false">
+<div id="cover"><img src="./dataset/loading.gif"></div>
+<div id="wrapper">
+    <div class="navbar  web3dglobe-bar">
+        <div class="header" id="head">
+            <h1 style="color:white;text-align:center;font-size: 27px;background:#08469F ">遥感监测数据整合及应用信息展示综合可视化系统</h1>
+
+            <div class="logo"><a href=""><img src="img/logo.png" alt=""></a></div>
+        </div>
+        <div class="navigation clearfix" id="toolbar" style="background:#4169E1 ">
+            <div class="main-nav">
+                <ul style="font-size:18px;">
+                    <li><a href="/">首页</a></li>
+                    <li><a href="#">数据查询</a>
+                        <div class="sec-nav listTwo" id="data-nav-sat-orbit">
+                            <div><a href="javascript:Gers.ui.isShow();" id="data-nav">空间查询</a></div>
+                            <div><a id="track-nav" href='javascript:void(0);'>属性查询</a></div>
+                        </div>
+                    </li>
+                    <li><a  target="_blank" id="space-earth-nav">空间分析</a>
+                        <div class="sec-nav listFour" id="subject-sec-nav">
+                            <div><a href="javascript:Gers.ui.sim(2);"  target="_blank">路径优化</a></div>
+                            <div><a href='javascript:void(0);'>工厂选址</a></div>
+                            <div><a  href="javascript:void(0);">物流设计</a></div>
+                            <div><a  href="javascript:void(0);"></a></div>
+                        </div>
+                    </li>
+                    <li><a href="#">大数据分析</a>
+                        <div class="sec-nav listFive" id="InfoProducts">
+                            <div><a href="javascript:void(0);" id="btn001">数据融合</a></div>
+                            <div><a href='javascript:void(0);'>数据同化</a></div>
+                            <div><a  href="javascript:void(0);">模型加载</a></div>
+                            <div><a href="javascript:void(0);" id="btn001">产品输出</a></div>
+                            <div><a href='javascript:void(0);'></a></div>
+                        </div>
+                    </li>
+
+                    <li><a id="subject-application" href="javascript:void(0)">帮助</a>
+                        <div class="sec-nav listFour" id="subject-sec-nav">
+                            <div><a href="javascript:Gers.ui.sim(2);"  target="_blank"></a></div>
+                            <div><a href='javascript:void(0);'></a></div>
+                            <div><a  href="javascript:void(0);"></a></div>
+                            <div><a  href="javascript:void(0);"> </a></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="user-nav">
+                <a href="javascript:Gers.ui.login();">登录</a>
+                <a href="javascript:Gers.ui.register();">注册</a>
+            </div>
+        </div>
+    </div>
+    <div id="globediv">
+
+        <div class="popup" id="satellite_popup"></div>
+
+        <div id="cesiumContainer"></div>
+
+        <div id="toolbar_popu"></div>
+        <div id="prod"></div>
+    </div>
+</div>
+<div id="footer" style=" position:absolute; bottom:0; height: 40px;width:100%;z-index: 10">
+    <table>
+        <tr>
+            <td>
+                <div>
+
+                </div>
+            </td>
+            <td>
+                <div>
+                    <div>&nbsp;中国科学院遥感与数字地球研究所</div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+<div>
+    <div class="panel panel-primary web3dglobe-data" >
+        <div class="panel-heading"style="background:#08469F ">
+            <div class="panel-title">navigator
+                <div class="btn-group pull-right">
+                    <button type="button" class="close" onclick="javascript:Gers.ui.dataClose();">&times;</button>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body" id="panelBody">
+            <hr>
+            <div style="height:14%;border-width:5px;margin-top:2px;border-bottom:2px solid #292828">
+                <ul id="basicLayer"></ul>
+            </div>
+            <div style="height:85%">
+                <ul id="datatree"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+    <script type="text/javascript" src="js/Config.js"></script>
+    <script type="text/javascript" src="js/jquery/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="js/jqwidgets-4.4.0/jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="js/jqwidgets-4.4.0/jqwidgets/jqxbuttons.js"></script>
+    <script type="text/javascript" src="js/jqwidgets-4.4.0/jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="js/jqwidgets-4.4.0/jqwidgets/jqxpanel.js"></script>
+    <script type="text/javascript" src="js/jqwidgets-4.4.0/jqwidgets/jqxtree.js"></script>
+    <script type="text/javascript" src="js/jqwidgets-4.4.0/jqwidgets/jqxcheckbox.js"></script>
+    <script type="text/javascript" src="js/dateTimePicker/jquery.datetimepicker.js"></script>
+    <script type="text/javascript" src="js/cesium-1.12/Cesium.js"></script>
+    <script type="text/javascript" src="js/globalVar.js"></script>
+    <script type="text/javascript" src="js/SatTLE.js"></script>
+    <script type="text/javascript" src="js/PreDataNav.js"></script>
+    <script type="text/javascript" src="js/UI.js"></script>
+    <script type="text/javascript" src="js/Initial.js"></script>
+    <script type="text/javascript" src="js/viewerCesiumNavigationMixin.min.js"></script>
+    <script type="text/javascript" src="js/webglobeMain.js"></script>
+</body>
+</html>

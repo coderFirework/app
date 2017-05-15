@@ -1,0 +1,104 @@
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <title>资源环境</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/webglobeMain.css" rel="stylesheet" media="screen">
+    <link href="js/jqwidgets-4.4.0/jqwidgets/styles/jqx.base.css" rel="stylesheet">
+    <link href="css/sticky-footer-navbar.css" rel="stylesheet">
+    <link href="css/Cesium-Navigation.css" rel="stylesheet">
+    <script type="text/javascript" src="js/cesium-3d-tiles/Build/CesiumUnminified/Cesium.js"></script>
+   <style>
+        @import url(js/cesium-3d-tiles/Build/CesiumUnminified/Widgets/widgets.css);
+        #main-nav li>a
+        {
+            font-family: "Times New Roman",Georgia, Serif
+        }
+    </style>
+</head>
+<body oncontextmenu="window.event.returnvalue=false">
+<div id="wrapper">
+    <div class="navbar  web3dglobe-bar">
+        <div class="header" id="head">
+
+            <h1 style="color:white;text-align:center;font-size: 30px;background:#08469F ">  <img src="img/radi-logo-s.png" alt=""/>  遥感监测数据整合及应急信息可视化系统</h1>
+
+        </div>
+        <div class="navigation clearfix" id="toolbar" style="background:#4169E1 ">
+            <div class="main-nav">
+                <ul style="font-size:18px;">
+                    <li><a href="/">首页</a></li>
+                    <li><a href="#">数据查询</a>
+                        <div class="sec-nav listTwo" id="data-nav-sat-orbit">
+                            <div><a href="javascript:Gers.ui.isShow();" id="data-nav">空间查询</a></div>
+                            <div><a id="track-nav" href='javascript:void(0);'>属性查询</a></div>
+                        </div>
+                    </li>
+                    <li><a  target="_blank" id="space-earth-nav">空间分析</a>
+                        <div class="sec-nav listFour" id="subject-sec-nav">
+                            <div><a href="javascript:Gers.ui.sim(2);"  target="_blank">路径优化</a></div>
+                            <div><a href='javascript:void(0);'>工厂选址</a></div>
+                            <div><a  href="javascript:void(0);">物流设计</a></div>
+                            <div><a  href="javascript:void(0);"></a></div>
+                        </div>
+                    </li>
+                    <li><a id="space-earth-nav1" href="#">大数据分析</a>
+                        <div class="sec-nav listFive" id="InfoProducts">
+                            <div><a href="javascript:void(0);" id="btn001">数据融合</a></div>
+                            <div><a href='javascript:void(0);'>数据同化</a></div>
+                            <div><a  href="javascript:void(0);">模型加载</a></div>
+                            <div><a href="javascript:void(0);" id="btn001">产品输出</a></div>
+                            <div><a href='javascript:void(0);'></a></div>
+                        </div>
+                    </li>
+
+                    <li><a id="subject-application" href="javascript:void(0)">帮助</a>
+                        <div class="sec-nav listFour" id="subject-sec-nav">
+                            <div><a href="javascript:Gers.ui.sim(2);"  target="_blank"></a></div>
+                            <div><a href='javascript:void(0);'></a></div>
+                            <div><a  href="javascript:void(0);"></a></div>
+                            <div><a  href="javascript:void(0);"> </a></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="globediv">
+        <div id='basicLayer' style=" top:5px"></div>
+        <div id='dataTree'></div>
+        <div id="cesiumContainer"></div>
+    </div>
+</div>
+<div id="footer" style=" position:absolute; bottom:0; height: 40px;width:100%;z-index: 10">
+    <table>
+        <tr>
+            <td>
+                <div>
+
+                </div>
+            </td>
+            <td>
+                <div>
+                    <div style=";font-size: 20px" >&nbsp;中国科学院遥感与数字地球研究所</div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+<script type="text/javascript" src="js/viewerCesiumNavigationMixin.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="js/jqwidgets-4.4.0/jqwidgets/jqxcore.js"></script>
+<script type="text/javascript" src="js/jqwidgets-4.4.0/jqwidgets/jqxbuttons.js"></script>
+<script type="text/javascript" src="js/jqwidgets-4.4.0/jqwidgets/jqxscrollbar.js"></script>
+<script type="text/javascript" src="js/jqwidgets-4.4.0/jqwidgets/jqxpanel.js"></script>
+<script type="text/javascript" src="js/jqwidgets-4.4.0/jqwidgets/jqxtree.js"></script>
+<script type="text/javascript" src="js/jqwidgets-4.4.0/jqwidgets/jqxcheckbox.js"></script>
+<script type="text/javascript" src="js/dateTimePicker/jquery.datetimepicker.js"></script>
+<script type="text/javascript" src="js/sanweimoxing%20backup.js"></script>
+<script type="text/javascript" src="js/navigation%20backup.js"></script>
+</body>
+</html>
