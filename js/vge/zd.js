@@ -2,8 +2,6 @@
  * Created by Administrator on 2017/5/15.
  */
 var scene = viewer.scene;
-
-
 //点击图标量距
 $('#ruler').click(function () {
     //var linepoints = new Array(2);
@@ -86,7 +84,7 @@ $('#ruler').click(function () {
                     '经度: ' + ('   ' + longitudeString.toFixed(3)) + '\u00B0' +
                     '\n纬度: ' + ('   ' + latitudeString.toFixed(3)) + '\u00B0';
             } else {
-                entity.label.show = false;
+                //entity.label.show = false;
             }
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
         //通过指定的椭球，将鼠标的二维坐标转换为对应椭球体三维坐标
@@ -226,6 +224,7 @@ $('#area').click(function () {
                 material : Cesium.Color.BLUE.withAlpha(0.2)
             }
         });
+        arrayEntities.push(bluePolygon);
         var hierarchy=new Cesium.PolygonHierarchy(Cesium.Cartesian3.fromDegreesArray(xyArray));
         var indices = Cesium.PolygonPipeline.triangulate(hierarchy.positions, hierarchy.holes);
         var area = 0; // In square kilometers
@@ -373,6 +372,7 @@ handler.setInputAction(function (movement) {
         //entity.label.show = false;
     }
 }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+//handler.removeInputAction()
 //测量距离
 $('#jl').click(function () {
     //var linepoints = new Array(2);
@@ -482,17 +482,20 @@ $('#jl').click(function () {
     }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
 });
 
+//创建集合存储点、线、面
+var arrayEntities=new Array();
+
+//加点
 function addPoint(x, y) {
-    viewer.entities.add({
+    var yellowpoint= viewer.entities.add({
         position: Cesium.Cartesian3.fromDegrees(x, y),
         point: {
             color: Cesium.Color.YELLOW,
             pixelSize: 8
         }
     });
+    arrayEntities.push(yellowpoint);
 }
-
-
 //加线
 function addLine(p1, p2) {
     var redLine = viewer.entities.add({
@@ -502,6 +505,7 @@ function addLine(p1, p2) {
             material: Cesium.Color.RED
         }
     });
+    arrayEntities.push(redLine);
     return redLine;
 }
 
@@ -680,6 +684,7 @@ $('#mj').click(function () {
                 material : Cesium.Color.BLUE.withAlpha(0.2)
             }
         });
+        arrayEntities.push(bluePolygon);
         var hierarchy=new Cesium.PolygonHierarchy(Cesium.Cartesian3.fromDegreesArray(xyArray));
         var indices = Cesium.PolygonPipeline.triangulate(hierarchy.positions, hierarchy.holes);
         var area = 0; // In square kilometers
@@ -745,6 +750,7 @@ $("#getarea").click(function(){
             material : Cesium.Color.BLUE.withAlpha(0.2)
         }
     });
+    arrayEntities.push(bluePolygon);
     var hierarchy=new Cesium.PolygonHierarchy(Cesium.Cartesian3.fromDegreesArray(xyArray));
     var indices = Cesium.PolygonPipeline.triangulate(hierarchy.positions, hierarchy.holes);
     var area = 0; // In square kilometers
@@ -763,15 +769,26 @@ $("#getarea").click(function(){
         area += Cesium.Cartesian3.magnitude(areaVector)/2.0;
     }
     //alert(area/1000000);
-    document.getElementById("myArea").value=area/1000000;
+    document.getElementById("myArea").value=(area/1000000).toFixed(3);
     //重置数组
     pointsArr=[];
 });
 
 //清除所有实体
 $("#clear").click(function(){
-    viewer.entities.removeAll();
+    //viewer.entities.removeAll();
+    viewer.entities.remove(viewer.entities.getById("entity1"));
+    viewer.entities.remove(viewer.entities.getById("entity2"));
+    viewer.entities.remove(viewer.entities.getById("entity3"));
+    viewer.entities.remove(viewer.entities.getById("entity4"));
+    for(var i=0;i<arrayEntities.length;i++)
+    {
+        viewer.entities.remove(arrayEntities[i]);
+    }
+    handler.destroy();
+    handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
     entity1 = viewer.entities.add({
+        id:"entity1",
         label: {
             show: false,
             showBackground: true,
