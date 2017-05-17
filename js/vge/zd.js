@@ -26,7 +26,7 @@ $('#ruler').click(function () {
                     '\n纬度: ' + ('   ' + latitudeString.toFixed(3)) + '\u00B0'+
                     '\n单击右键选择终点算出距离';
             } else {
-                // entity.label.show = false;
+                //entity.label.show = false;
             }
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
         //通过指定的椭球，将鼠标的二维坐标转换为对应椭球体三维坐标
@@ -50,10 +50,10 @@ $('#ruler').click(function () {
     handler.setInputAction(function (rightclick) {
         //更换标签4
         viewer.entities.remove(viewer.entities.getById("entity4"));
-        var entity1 = viewer.entities.add({
+        entity1 = viewer.entities.add({
             id:"entity1",
             label: {
-                show: false,
+                show: true,
                 showBackground: true,
                 font: '16px monospace',
                 horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
@@ -81,12 +81,12 @@ $('#ruler').click(function () {
                 var longitudeString = Cesium.Math.toDegrees(cartographic.longitude);
                 var latitudeString = Cesium.Math.toDegrees(cartographic.latitude);
                 entity1.position = cartesian;
-                entity1.label.show = true;
+                //entity1.label.show = true;
                 entity1.label.text =
                     '经度: ' + ('   ' + longitudeString.toFixed(3)) + '\u00B0' +
                     '\n纬度: ' + ('   ' + latitudeString.toFixed(3)) + '\u00B0';
             } else {
-                //entity.label.show = false;
+                entity.label.show = false;
             }
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
         //通过指定的椭球，将鼠标的二维坐标转换为对应椭球体三维坐标
@@ -133,7 +133,7 @@ $('#area').click(function () {
                     '\n纬度: ' + ('   ' + latitudeString.toFixed(3)) + '\u00B0'+
                     '\n单击右键闭合区域算出面积';
             } else {
-               // entity.label.show = false;
+                //entity.label.show = false;
             }
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
         //截止到此
@@ -166,10 +166,10 @@ $('#area').click(function () {
     handler.setInputAction(function (rightclick) {
         //更换标签4
         viewer.entities.remove(viewer.entities.getById("entity4"));
-        var entity1 = viewer.entities.add({
+        entity1 = viewer.entities.add({
             id:"entity1",
             label: {
-                show: false,
+                show: true,
                 showBackground: true,
                 font: '16px monospace',
                 horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
@@ -197,12 +197,12 @@ $('#area').click(function () {
                 var longitudeString = Cesium.Math.toDegrees(cartographic.longitude);
                 var latitudeString = Cesium.Math.toDegrees(cartographic.latitude);
                 entity1.position = cartesian;
-                entity1.label.show = true;
+                //entity1.label.show = true;
                 entity1.label.text =
                     '经度: ' + ('   ' + longitudeString.toFixed(3)) + '\u00B0' +
                     '\n纬度: ' + ('   ' + latitudeString.toFixed(3)) + '\u00B0';
             } else {
-               // entity.label.show = false;
+                //entity.label.show = false;
             }
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
         //截止到此
@@ -344,6 +344,19 @@ function list()
         }
     });
 
+//显、隐标签1（经纬度标签）
+$("#jingwei").click(function(){
+    if(entity1.label.show.getValue()== false)
+    {
+
+        entity1.label.show = true;
+    }
+    else
+    {
+        entity1.label.show = false;
+    }
+});
+
 var handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 handler.setInputAction(function (movement) {
     cartesian = viewer.camera.pickEllipsoid(movement.endPosition, scene.globe.ellipsoid);
@@ -352,7 +365,7 @@ handler.setInputAction(function (movement) {
         var longitudeString = Cesium.Math.toDegrees(cartographic.longitude);
         var latitudeString = Cesium.Math.toDegrees(cartographic.latitude);
         entity1.position = cartesian;
-        entity1.label.show = true;
+        //entity1.label.show = true;
         entity1.label.text =
             '经度: ' + ('   ' + longitudeString.toFixed(3)) + '\u00B0' +
             '\n纬度: ' + ('   ' + latitudeString.toFixed(3)) + '\u00B0';
@@ -406,10 +419,10 @@ $('#jl').click(function () {
     handler.setInputAction(function (rightclick) {
         //更换标签4
         viewer.entities.remove(viewer.entities.getById("entity4"));
-        var entity1 = viewer.entities.add({
+        entity1 = viewer.entities.add({
             id:"entity1",
             label: {
-                show: false,
+                show: true,
                 showBackground: true,
                 font: '16px monospace',
                 horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
@@ -437,12 +450,12 @@ $('#jl').click(function () {
                 var longitudeString = Cesium.Math.toDegrees(cartographic.longitude);
                 var latitudeString = Cesium.Math.toDegrees(cartographic.latitude);
                 entity1.position = cartesian;
-                entity1.label.show = true;
+                //entity1.label.show = true;
                 entity1.label.text =
                     '经度: ' + ('   ' + longitudeString.toFixed(3)) + '\u00B0' +
                     '\n纬度: ' + ('   ' + latitudeString.toFixed(3)) + '\u00B0';
             } else {
-                // entity.label.show = false;
+                //entity.label.show = false;
             }
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
         //通过指定的椭球，将鼠标的二维坐标转换为对应椭球体三维坐标
@@ -464,7 +477,7 @@ $('#jl').click(function () {
                 '\n起点纬度: ' + ('   ' + p1[1].toFixed(3)) + '\u00B0'+
                 '\n终点经度: ' + ('   ' + p2[0].toFixed(3)) + '\u00B0' +
                 '\n终点纬度: ' + ('   ' + p2[1].toFixed(3)) + '\u00B0'+
-                '\n距离是: ' + resultInKm + '千米';
+                '\n距离是: ' + (resultInKm).toFixed(3) + '千米';
         }
     }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
 });
@@ -607,10 +620,10 @@ $('#mj').click(function () {
     handler.setInputAction(function (rightclick) {
         //更换标签4
         viewer.entities.remove(viewer.entities.getById("entity4"));
-        var entity1 = viewer.entities.add({
+        entity1 = viewer.entities.add({
             id:"entity1",
             label: {
-                show: false,
+                show: true,
                 showBackground: true,
                 font: '16px monospace',
                 horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
@@ -638,7 +651,7 @@ $('#mj').click(function () {
                 var longitudeString = Cesium.Math.toDegrees(cartographic.longitude);
                 var latitudeString = Cesium.Math.toDegrees(cartographic.latitude);
                 entity1.position = cartesian;
-                entity1.label.show = true;
+                //entity1.label.show = true;
                 entity1.label.text =
                     '经度: ' + ('   ' + longitudeString.toFixed(3)) + '\u00B0' +
                     '\n纬度: ' + ('   ' + latitudeString.toFixed(3)) + '\u00B0';
@@ -757,7 +770,7 @@ $("#getarea").click(function(){
 
 //清除所有实体
 $("#clear").click(function(){
-    //viewer.entities.removeAll();
+    viewer.entities.removeAll();
     entity1 = viewer.entities.add({
         label: {
             show: false,

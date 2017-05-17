@@ -59,14 +59,9 @@ function clickSelect() {
         var pickedObject = viewer.scene.pick(movement.position);
         po=pickedObject;
         if (pickedObject) {
-
            primitive = pickedObject.primitive;
             var buildingEntity = primitive.id;
             if (pickedObject !== lastPick && primitive instanceof Cesium.Model && buildingEntity.name=="building") {
-
-                //We don't use the entity here, but if you need to color based on
-                //some entity property, you can get to that data it here.
-
                 var worldPosition = buildingEntity.position._value;
                 var screenPosition= Cesium.SceneTransforms.wgs84ToWindowCoordinates(viewer.scene, worldPosition);
                 var x = screenPosition.x;
@@ -76,14 +71,6 @@ function clickSelect() {
                 syncDiv(buildingEntity,iDiv);
                 buildingEntity.model.color=Cesium.Color.YELLOW
                 lastPick = buildingEntity;
-/*                console.log(entity);
-                var material = primitive.getMaterial('Material_0');
-                console.log(material);
-                //var material = primitive.getMaterial('Red'); - original line
-                lastColor = material.getValue('diffuse').clone();
-                //material.setValue('diffuse', Cesium.Cartesian4.fromColor(Cesium.Color.BLUE));
-                material.setValue('diffuse', Cesium.Cartesian4.fromColor(Cesium.Color.YELLOW));
-                lastPick = pickedObject;*/
             }else if(pickedObject !== lastPick && primitive instanceof Cesium.Billboard){
                 var entity = primitive.id;
                 var worldPosition = entity.position._value;
@@ -190,6 +177,6 @@ function toast(title,content,left,top) {
     iDiv.show();
     return iDiv;
 }
-function  getVideoElement() {
+function  getVideoElement( url) {
     return '<video id="trailer"  autoplay="" loop="" crossorigin="" controls=""> <source src="http://cesiumjs.org/videos/Sandcastle/big-buck-bunny_trailer.mp4" type="video/mp4">Your browser does not support the <code>video</code> element.</video>'
 }

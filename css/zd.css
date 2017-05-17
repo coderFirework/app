@@ -53,3 +53,7 @@
     list-style: none;
     opacity: 0.5;
 }
+.symbol{
+    float: right;
+    background: #252525;
+}

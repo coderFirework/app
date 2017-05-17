@@ -79,8 +79,12 @@
         <div id='dataTree'></div>
         <div id="cesiumContainer">
             <div id="symbol">
-                <img src="./img/area.jpg" align="right" id="area"/>
-                <img src="./img/ruler.jpg" align="right" id="ruler" />
+                <img src="./img/jingwei.jpg" id="jingwei" class="symbol"/>
+                <img src="./img/area.jpg"  id="area" class="symbol"/>
+                <img src="./img/ruler.jpg"  id="ruler" class="symbol"/>
+                <div id="r-result" class="symbol" >
+                <input  id="cityName" style="width:100px" type="text" placeholder="地名：如北京" class="cityname_class" >
+                <img class="search_label" onclick="theLocation()" src="./img/search.png" >
             </div>
             <div id="tool" class="close">
                 <ul>
@@ -175,7 +179,8 @@
 <script type="text/javascript" src="js/vge/zgy.js"></script>
 <script type="text/javascript" src="js/vge/zd.js"></script>
 <script type="text/javascript" src="js/vge/videoplayJL.js"></script>
-
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=NPIZ7lecUaONZ0F29Wz6NIib8cX8EoQp"></script>
+<script type="text/javascript" src="js/vge/Search.js"></script>
 
 
 </body>
