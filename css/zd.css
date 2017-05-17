@@ -1,0 +1,55 @@
+
+#tool{
+    position: absolute;
+    left: -40px;
+    top:125px;
+    z-index: 999;
+    font-family: 宋体;
+}
+
+
+#cesiumContainer td{
+    color: lightgrey;
+    background-color: #0b559b;
+    border: 1px solid lightgrey;
+    padding: 5px;
+    border-radius: 5px;
+    margin-right: 20px;
+    list-style: none;
+    opacity: 0.5;
+}
+
+#cesiumContainer li:hover {
+    cursor: pointer;
+    color: white;
+    border: 1px solid white;
+    opacity: 1;
+}
+
+.open{
+    display:block;
+}
+
+.close{
+    display:none;
+}
+#symbol img{
+    height: 35px;
+    width: 35px;
+}
+#symbol img:hover {
+    cursor: pointer;
+    opacity: 1;
+    border: 1px solid white;
+}
+.licss{
+    width: 110px;
+    color: lightgrey;
+    background-color:#0b559b;
+    border: 1px solid lightgrey;
+    padding: 5px;
+    border-radius: 5px;
+    margin-right: 20px;
+    list-style: none;
+    opacity: 0.5;
+}

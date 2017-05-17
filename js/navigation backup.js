@@ -118,7 +118,8 @@ $(document).ready(function () {
             [
                 {icon: "img/jiashan.png",label:"嘉善地区三维模型"},
                 {icon: "img/sanweimoxing1.png",label:"其他地区的三维模型"},
-                {icon: "img/sanweimoxing1.png",label:"奥运场景三维模型"}
+                {icon: "img/sanweimoxing1.png",label:"奥运场景三维模型"},
+                {icon: "img/sanweimoxing1.png",label:"视频流数据"}
             ]
         }
     ];
@@ -154,6 +155,11 @@ $(document).ready(function () {
         }
         if(item.label=="其他地区的三维模型")
         {
+
+        }
+        if(item.label=="视频流数据")
+        {
+            videoplay();
 
         }
         if(item.label=="奥运场景三维模型")

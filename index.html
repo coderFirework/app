@@ -10,13 +10,22 @@
     <link href="js/jqwidgets-4.4.0/jqwidgets/styles/jqx.base.css" rel="stylesheet">
     <link href="css/sticky-footer-navbar.css" rel="stylesheet">
     <link href="css/Cesium-Navigation.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css"/>
     <link href="css/zgy.css" rel="stylesheet">
-    <script type="text/javascript" src="js/Cesium-1.33/Build/CesiumUnminified/Cesium.js"></script>
+    <link href="css/zd.css" rel="stylesheet"/>
+    <script type="text/javascript" src="js/Cesium-Tiles/Build/CesiumUnminified/Cesium.js"></script>
    <style>
-        @import url(js/Cesium-1.33/Build/CesiumUnminified/Widgets/widgets.css);
+        @import url(js/Cesium-Tiles/Build/CesiumUnminified/Widgets/widgets.css);
         #main-nav li>a
         {
             font-family: "Times New Roman",Georgia, Serif
+        }
+        #trailer {
+            position: absolute;
+            bottom: 75px;
+            right: 0;
+            width: 320px;
+            height: 180px;
         }
     </style>
 </head>
@@ -43,7 +52,7 @@
                             <div><a href="javascript:Gers.ui.sim(2);"  target="_blank">路径优化</a></div>
                             <div><a href='javascript:void(0);'>工厂选址</a></div>
                             <div><a  href="javascript:void(0);">物流设计</a></div>
-                            <div><a  href="javascript:void(0);"></a></div>
+                            <div onclick="measurement()"><a  href="javascript:void(0);">空间测量</a></div>
                         </div>
                     </li>
                     <li><a id="space-earth-nav1" href="#">大数据分析</a>
@@ -71,7 +80,76 @@
     <div id="globediv">
         <div id='basicLayer' style=" top:5px"></div>
         <div id='dataTree'></div>
-        <div id="cesiumContainer"></div>
+        <div id="cesiumContainer">
+            <div id="symbol">
+                <img src="./img/area.jpg" align="right" id="area"/>
+                <img src="./img/ruler.jpg" align="right" id="ruler" />
+            </div>
+            <div id="tool" class="close">
+                <ul>
+                    <div><li onclick="list()" id="jl" class="licss">定点测量距离</li></div>
+                    <div><li onclick="list()" id="mj" class="licss">定点测量面积</li></div>
+                    <div>
+                        <li onclick="list()" class="licss">输入测量距离</li>
+                        <table class="close">
+                            <tr>
+                                <td>起点经度：</td>
+                                <td><input size="5"  type="text" id="startlon"></td>
+                                <td>起点纬度：</td>
+                                <td><input size="5"  type="text" id="startlat"></td>
+                            </tr>
+                            <tr>
+                                <td>终点经度：</td>
+                                <td><input size="5"  type="text" id="endlon"></td>
+                                <td>终点纬度：</td>
+                                <td><input size="5"  type="text" id="endlat"></td>
+                            </tr>
+                            <tr>
+                                <td>距离：</td>
+                                <td><input size="5"  type="text" id="distance"></td>
+                                <td><input type="button" value="确定" onclick="createdistance()"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div>
+                        <li onclick="list()" class="licss">输入测量面积</li>
+                        <table class="close">
+                            <tr>
+                                <td>经度</td>
+                                <td>纬度</td>
+                                <td>面积</td>
+                                <td>操作</td>
+                            </tr>
+                            <tr>
+                                <td><input size="5" id="myLon" /></td>
+                                <td><input size="5" id="myLat" /></td>
+                                <td><input size="5" id="myArea" /></td>
+                                <td>
+                                    <input type="button" value="加点" id="addmypoint"/>
+                                    <input type="button" value="确定" id="getarea"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div><li onclick="list()" id="clear" class="licss">清除所有数据</li></div>
+                </ul>
+
+            </div>
+
+            <div id="toast" class="popover right toast">
+                <div class="arrow"></div>
+                <h3 id="popTitle" class="popover-title">模型属性</h3>
+                <div id ="popContent" class="popover-content">
+
+                </div>
+            </div>
+        </div>
+        <video id="trailer" style="display: none;" autoplay="" loop="" crossorigin="" controls="">
+            <source src="http://cesiumjs.org/videos/Sandcastle/big-buck-bunny_trailer.webm" type="video/webm">
+            <source src="http://cesiumjs.org/videos/Sandcastle/big-buck-bunny_trailer.mp4" type="video/mp4">
+            <source src="http://cesiumjs.org/videos/Sandcastle/big-buck-bunny_trailer.mov" type="video/quicktime">
+            Your browser does not support the <code>video</code> element.
+        </video>
     </div>
 </div>
 <div id="footer" style=" position:absolute; bottom:0; height: 40px;width:100%;z-index: 10">
@@ -92,6 +170,7 @@
 </div>
 <script type="text/javascript" src="js/viewerCesiumNavigationMixin.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="js/vge/echarts.js"></script>
 <script type="text/javascript" src="js/jqwidgets-4.4.0/jqwidgets/jqxcore.js"></script>
 <script type="text/javascript" src="js/jqwidgets-4.4.0/jqwidgets/jqxbuttons.js"></script>
 <script type="text/javascript" src="js/jqwidgets-4.4.0/jqwidgets/jqxscrollbar.js"></script>
@@ -102,5 +181,10 @@
 <script type="text/javascript" src="js/sanweimoxing%20backup.js"></script>
 <script type="text/javascript" src="js/navigation%20backup.js"></script>
 <script type="text/javascript" src="js/vge/zgy.js"></script>
+<script type="text/javascript" src="js/vge/zd.js"></script>
+<script type="text/javascript" src="js/vge/videoplayJL.js"></script>
+
+
+
 </body>
 </html>

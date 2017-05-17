@@ -89,11 +89,13 @@ function clickSelect() {
                 var x = screenPosition.x;
                 var y =  screenPosition.y;
                 var content='zz';
-                iDiv = toast("三维模型",content,x,y);
+                iDiv = toast("图表",content,x,y);
+                iDiv.width(300);
+                iDiv.height(300);
                 syncDiv(entity,iDiv);
                 entity.model.color=Cesium.Color.YELLOW
                 lastPick = entity;
-                alert("hi i'm Billboard");
+                //popContent
             }
         } else if (lastPick) {
             isSync = false;
@@ -131,7 +133,7 @@ function syncDiv(entity,iDiv) {
             var screenPosition= Cesium.SceneTransforms.wgs84ToWindowCoordinates(viewer.scene, worldPosition);
             var x = screenPosition.x;
             var y =  screenPosition.y;
-            y=y-100;
+            y=y-(iDiv.height()/2);
             iDiv.css({'left':x+'px','top':y+'px'});
             console.log("x is:"+x+",y is:"+y);
         }
@@ -142,7 +144,7 @@ function syncDiv(entity,iDiv) {
             var screenPosition= Cesium.SceneTransforms.wgs84ToWindowCoordinates(viewer.scene, worldPosition);
             var x = screenPosition.x;
             var y =  screenPosition.y;
-            y=y-100;
+            y=y-(iDiv.height()/2);
             iDiv.css({'left':x+'px','top':y+'px'});
             console.log("x is:"+x+",y is:"+y);
         }
@@ -154,7 +156,7 @@ function toast(title,content,left,top) {
     var iDiv = $("#toast");
     $("#popTitle").text(title);
     $("#popContent").html(content);
-    top=top-100;
+    top=top-(iDiv.height()/2);
     iDiv.css({'left':left+'px','top':top+'px'});
     iDiv.show();
     //$("#cesiumContainer").append(iDiv);
