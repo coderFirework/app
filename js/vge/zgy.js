@@ -9,7 +9,7 @@ var entity;
 var isSync=false;
 function createModel(url) {
      entity = viewer.entities.add({
-        name: url,
+        name: 'building',
         position: position,
         orientation: modelMatrix,
         model: {
@@ -60,11 +60,12 @@ function clickSelect() {
         if (pickedObject) {
 
            var  primitive = pickedObject.primitive;
-            if (pickedObject !== lastPick && primitive instanceof Cesium.Model) {
+            var entity = primitive.id;
+            if (pickedObject !== lastPick && primitive instanceof Cesium.Model && entity.name=="building") {
 
                 //We don't use the entity here, but if you need to color based on
                 //some entity property, you can get to that data it here.
-                var entity = primitive.id;
+
                 var worldPosition = entity.position._value;
                 var screenPosition= Cesium.SceneTransforms.wgs84ToWindowCoordinates(viewer.scene, worldPosition);
                 var x = screenPosition.x;
