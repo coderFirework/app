@@ -26,7 +26,7 @@ $('#ruler').click(function () {
                     '\n纬度: ' + ('   ' + latitudeString.toFixed(3)) + '\u00B0'+
                     '\n单击右键选择终点算出距离';
             } else {
-                entity.label.show = false;
+                // entity.label.show = false;
             }
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
         //通过指定的椭球，将鼠标的二维坐标转换为对应椭球体三维坐标
@@ -86,7 +86,7 @@ $('#ruler').click(function () {
                     '经度: ' + ('   ' + longitudeString.toFixed(3)) + '\u00B0' +
                     '\n纬度: ' + ('   ' + latitudeString.toFixed(3)) + '\u00B0';
             } else {
-                entity.label.show = false;
+                //entity.label.show = false;
             }
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
         //通过指定的椭球，将鼠标的二维坐标转换为对应椭球体三维坐标
@@ -133,7 +133,7 @@ $('#area').click(function () {
                     '\n纬度: ' + ('   ' + latitudeString.toFixed(3)) + '\u00B0'+
                     '\n单击右键闭合区域算出面积';
             } else {
-                entity.label.show = false;
+               // entity.label.show = false;
             }
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
         //截止到此
@@ -202,7 +202,7 @@ $('#area').click(function () {
                     '经度: ' + ('   ' + longitudeString.toFixed(3)) + '\u00B0' +
                     '\n纬度: ' + ('   ' + latitudeString.toFixed(3)) + '\u00B0';
             } else {
-                entity.label.show = false;
+               // entity.label.show = false;
             }
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
         //截止到此
@@ -357,7 +357,7 @@ handler.setInputAction(function (movement) {
             '经度: ' + ('   ' + longitudeString.toFixed(3)) + '\u00B0' +
             '\n纬度: ' + ('   ' + latitudeString.toFixed(3)) + '\u00B0';
     } else {
-        entity.label.show = false;
+        //entity.label.show = false;
     }
 }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 //测量距离
@@ -382,7 +382,7 @@ $('#jl').click(function () {
                     '\n纬度: ' + ('   ' + latitudeString.toFixed(3)) + '\u00B0'+
                     '\n单击右键选择终点算出距离';
             } else {
-                entity.label.show = false;
+                //entity.label.show = false;
             }
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
         //通过指定的椭球，将鼠标的二维坐标转换为对应椭球体三维坐标
@@ -442,7 +442,7 @@ $('#jl').click(function () {
                     '经度: ' + ('   ' + longitudeString.toFixed(3)) + '\u00B0' +
                     '\n纬度: ' + ('   ' + latitudeString.toFixed(3)) + '\u00B0';
             } else {
-                entity.label.show = false;
+                // entity.label.show = false;
             }
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
         //通过指定的椭球，将鼠标的二维坐标转换为对应椭球体三维坐标
