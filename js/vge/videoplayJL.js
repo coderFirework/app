@@ -3,7 +3,7 @@
  */
 function videoplay() {
     // viewer.scene.globe.enableLighting = true;
-    viewer.entities.removeAll();
+    //viewer.entities.removeAll();
     var scene = viewer.scene;
     var globe = scene.globe;
 

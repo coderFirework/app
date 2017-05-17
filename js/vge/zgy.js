@@ -50,8 +50,9 @@ function clickSelect() {
     var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
     handler.setInputAction(function(movement) {
         var iDiv;
-        //var primitive;
+        var primitive;
         //var pickedObject = viewer.scene.pick(movement.endPosition);
+
         if(lastPick!=undefined){
             lastPick.model.color=Cesium.Color.WHITE;
         }
@@ -59,22 +60,22 @@ function clickSelect() {
         po=pickedObject;
         if (pickedObject) {
 
-           var  primitive = pickedObject.primitive;
-            var entity = primitive.id;
-            if (pickedObject !== lastPick && primitive instanceof Cesium.Model && entity.name=="building") {
+           primitive = pickedObject.primitive;
+            var buildingEntity = primitive.id;
+            if (pickedObject !== lastPick && primitive instanceof Cesium.Model && buildingEntity.name=="building") {
 
                 //We don't use the entity here, but if you need to color based on
                 //some entity property, you can get to that data it here.
 
-                var worldPosition = entity.position._value;
+                var worldPosition = buildingEntity.position._value;
                 var screenPosition= Cesium.SceneTransforms.wgs84ToWindowCoordinates(viewer.scene, worldPosition);
                 var x = screenPosition.x;
                 var y =  screenPosition.y;
                 var content='<p><b>名称</b>:飞机</p></br> <p><b>经度</b>:120.17</p></br> <p><b>纬度</b>:39.04</p>';
                 iDiv = toast("三维模型",content,x,y);
-                syncDiv(entity,iDiv);
-                entity.model.color=Cesium.Color.YELLOW
-                lastPick = entity;
+                syncDiv(buildingEntity,iDiv);
+                buildingEntity.model.color=Cesium.Color.YELLOW
+                lastPick = buildingEntity;
 /*                console.log(entity);
                 var material = primitive.getMaterial('Material_0');
                 console.log(material);
@@ -90,9 +91,10 @@ function clickSelect() {
                 var x = screenPosition.x;
                 var y =  screenPosition.y;
                 var content='zz';
-                iDiv = toast("图表",content,x,y);
+                iDiv = toast("图表",getVideoElement(),x,y);
+                //createChart();
                 iDiv.width(300);
-                iDiv.height(300);
+                iDiv.height(240);
                 syncDiv(entity,iDiv);
                 entity.model.color=Cesium.Color.YELLOW
                 lastPick = entity;
@@ -108,6 +110,32 @@ function clickSelect() {
             lastPick = undefined;*/
         }
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+}
+function createChart() {
+    var myChart = echarts.init(document.getElementById('popContent'));
+
+    // 指定图表的配置项和数据
+    var option = {
+        title: {
+            text: 'ECharts 入门示例'
+        },
+        tooltip: {},
+        legend: {
+            data:['销量']
+        },
+        xAxis: {
+            data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+        },
+        yAxis: {},
+        series: [{
+            name: '销量',
+            type: 'bar',
+            data: [5, 20, 36, 10, 10, 20]
+        }]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
 }
 function syncDiv(entity,iDiv) {
     var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
@@ -160,6 +188,8 @@ function toast(title,content,left,top) {
     top=top-(iDiv.height()/2);
     iDiv.css({'left':left+'px','top':top+'px'});
     iDiv.show();
-    //$("#cesiumContainer").append(iDiv);
     return iDiv;
+}
+function  getVideoElement() {
+    return '<video id="trailer"  autoplay="" loop="" crossorigin="" controls=""> <source src="http://cesiumjs.org/videos/Sandcastle/big-buck-bunny_trailer.mp4" type="video/mp4">Your browser does not support the <code>video</code> element.</video>'
 }
