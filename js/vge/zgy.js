@@ -1,16 +1,34 @@
 /**
  * Created by myhom on 2017/5/15.
  */
-var position = Cesium.Cartesian3.fromDegrees(120.9184265136719, 30.84843635559082,1000);
-var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(0), Cesium.Math.toRadians(-0.0), Cesium.Math.toRadians(0));
+var position = Cesium.Cartesian3.fromDegrees(120.9184265136719, 30.84843635559082, 2);
+var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(0), Cesium.Math.toRadians(-0.0), Cesium.Math.toRadians(-90.0));
 var modelMatrix = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
 
 var entity;
 var isSync=false;
+
+
+function createRedSphere()
+{
+    var redSphere = viewer.entities.add({
+        name : 'video',
+        data:'http://cesiumjs.org/videos/Sandcastle/big-buck-bunny_trailer.mp4',
+        position: Cesium.Cartesian3.fromDegrees(-107.0, 40.0, 300000.0),
+        ellipsoid : {
+            radii : new Cesium.Cartesian3(300000.0, 300000.0, 300000.0),
+            material : Cesium.Color.RED.withAlpha(0.5),
+            outline : true,
+            outlineColor : Cesium.Color.BLACK
+        }
+    });
+    viewer.trackedEntity = redSphere;
+}
+createRedSphere();
 function createModel(url) {
-     entity = viewer.entities.add({
+    entity = viewer.entities.add({
         name: 'building',
-         data:"test",
+        data:"test",
         position: position,
         orientation: modelMatrix,
         model: {
@@ -62,7 +80,7 @@ function clickSelect() {
         var pickedObject = viewer.scene.pick(movement.position);
         po=pickedObject;
         if (pickedObject) {
-           //primitive = pickedObject.primitive;
+            //primitive = pickedObject.primitive;
             var pickedEntity = pickedObject.id;
 
             var worldPosition = pickedEntity.position._value;
@@ -91,7 +109,7 @@ function clickSelect() {
                 lastPick = pickedEntity;
                 lastModel=pickedObject.primitive;
                 //popContent
-            }else if(pickedObject !== lastPick && pickedEntity.name=="chart"){
+            }else if(pickedObject !== lastPick && pickedEntity.name=="video"){
                 var url = pickedEntity.data;
                 iDiv = toast("视频",getVideoElement(url),x,y);
                 iDiv.width(300);
@@ -104,11 +122,12 @@ function clickSelect() {
         } else if (lastPick) {
             isSync = false;
             $("#toast").hide();
-           /* primitive = lastPick.primitive;
-            var material = primitive.getMaterial('Material_0');
-            //var material = primitive.getMaterial('Red'); - original line
-            material.setValue('diffuse', lastColor);
-            lastPick = undefined;*/
+            $("#popContent").html("");
+            /* primitive = lastPick.primitive;
+             var material = primitive.getMaterial('Material_0');
+             //var material = primitive.getMaterial('Red'); - original line
+             material.setValue('diffuse', lastColor);
+             lastPick = undefined;*/
         }
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 }
@@ -155,10 +174,10 @@ function syncDiv(entity,iDiv) {
         isSync= false;
     },Cesium.ScreenSpaceEventType.MIDDLE_UP);
     /*
-    handler.setInputAction(function (movent) {
-        isSync= true;
-    },Cesium.Cesium.KeyboardEventModifier.CTRL);
-    */
+     handler.setInputAction(function (movent) {
+     isSync= true;
+     },Cesium.Cesium.KeyboardEventModifier.CTRL);
+     */
     handler.setInputAction(function(movement) {
         if(entity!=undefined && isSync){
             var worldPosition = entity.position._value;
@@ -187,6 +206,7 @@ clickSelect();
 function toast(title,content,left,top) {
     var iDiv = $("#toast");
     $("#popTitle").text(title);
+    $("#popContent").html("");
     $("#popContent").html(content);
     top=top-(iDiv.height()/2);
     iDiv.css({'left':left+'px','top':top+'px'});
@@ -196,3 +216,4 @@ function toast(title,content,left,top) {
 function  getVideoElement( url) {
     return '<video id="trailer"  autoplay="" loop="" crossorigin="" controls=""> <source src="'+url+'" type="video/mp4">Your browser does not support the <code>video</code> element.</video>'
 }
+
