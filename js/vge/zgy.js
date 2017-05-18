@@ -10,6 +10,7 @@ var isSync=false;
 function createModel(url) {
      entity = viewer.entities.add({
         name: 'building',
+         data:"test",
         position: position,
         orientation: modelMatrix,
         model: {
@@ -32,6 +33,7 @@ function createModel(url) {
 }
 function createBillboard() {
     viewer.entities.add({
+        name:"chart",
         position:Cesium.Cartesian3.fromDegrees(120.9184265136719, 39.84843635559082, 100),
         billboard:{
             image:'./img/chart2.png',
@@ -39,8 +41,9 @@ function createBillboard() {
     });
 }
 createBillboard();
-createModel("./models/Cesium_Air.gltf");
+createModel("./models/jianzhuwu.gltf");
 var lastPick;
+var lastModel;
 var po;
 function clickSelect() {
     //Change color on mouse over.  This relies on the fact that given a primitive,
@@ -50,42 +53,53 @@ function clickSelect() {
     var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
     handler.setInputAction(function(movement) {
         var iDiv;
-        var primitive;
+        //var primitive;
         //var pickedObject = viewer.scene.pick(movement.endPosition);
 
-        if(lastPick!=undefined){
-            lastPick.model.color=Cesium.Color.WHITE;
+        if(lastModel!=undefined && lastModel instanceof (Cesium.Model)){
+            lastModel.id.model.color=Cesium.Color.WHITE;
         }
         var pickedObject = viewer.scene.pick(movement.position);
         po=pickedObject;
         if (pickedObject) {
-           primitive = pickedObject.primitive;
-            var buildingEntity = primitive.id;
-            if (pickedObject !== lastPick && primitive instanceof Cesium.Model && buildingEntity.name=="building") {
-                var worldPosition = buildingEntity.position._value;
-                var screenPosition= Cesium.SceneTransforms.wgs84ToWindowCoordinates(viewer.scene, worldPosition);
-                var x = screenPosition.x;
-                var y =  screenPosition.y;
+           //primitive = pickedObject.primitive;
+            var pickedEntity = pickedObject.id;
+
+            var worldPosition = pickedEntity.position._value;
+            var screenPosition= Cesium.SceneTransforms.wgs84ToWindowCoordinates(viewer.scene, worldPosition);
+            var x = screenPosition.x;
+            var y =  screenPosition.y;
+
+            if (pickedObject !== lastPick && pickedEntity.name=="building") {
+
                 var content='<p><b>名称</b>:飞机</p></br> <p><b>经度</b>:120.17</p></br> <p><b>纬度</b>:39.04</p>';
                 iDiv = toast("三维模型",content,x,y);
-                syncDiv(buildingEntity,iDiv);
-                buildingEntity.model.color=Cesium.Color.YELLOW
-                lastPick = buildingEntity;
-            }else if(pickedObject !== lastPick && primitive instanceof Cesium.Billboard){
-                var entity = primitive.id;
-                var worldPosition = entity.position._value;
-                var screenPosition= Cesium.SceneTransforms.wgs84ToWindowCoordinates(viewer.scene, worldPosition);
-                var x = screenPosition.x;
-                var y =  screenPosition.y;
-                var content='zz';
-                iDiv = toast("图表",getVideoElement(),x,y);
+                syncDiv(pickedEntity,iDiv);
+                pickedEntity.model.color=Cesium.Color.YELLOW
+                lastPick = pickedEntity;
+                lastModel=pickedObject.primitive;
+            }else if(pickedObject !== lastPick && pickedEntity.name=="chart"){
+                //var entity = primitive.id;
+                //iDiv = toast("图表",getVideoElement(),x,y);
                 //createChart();
+                iDiv = toast("图表","",x,y);
+                createChart();
                 iDiv.width(300);
                 iDiv.height(240);
-                syncDiv(entity,iDiv);
-                entity.model.color=Cesium.Color.YELLOW
-                lastPick = entity;
+                syncDiv(pickedEntity,iDiv);
+                //pickedEntity.model.color=Cesium.Color.YELLOW
+                lastPick = pickedEntity;
+                lastModel=pickedObject.primitive;
                 //popContent
+            }else if(pickedObject !== lastPick && pickedEntity.name=="chart"){
+                var url = pickedEntity.data;
+                iDiv = toast("视频",getVideoElement(url),x,y);
+                iDiv.width(300);
+                iDiv.height(240);
+                syncDiv(pickedEntity,iDiv);
+                //pickedEntity.model.color=Cesium.Color.YELLOW
+                lastPick = pickedEntity;
+                lastModel=pickedObject.primitive;
             }
         } else if (lastPick) {
             isSync = false;
@@ -99,23 +113,25 @@ function clickSelect() {
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 }
 function createChart() {
+    $("#popContent").height(200);
+    $("#popContent").width(260);
     var myChart = echarts.init(document.getElementById('popContent'));
 
     // 指定图表的配置项和数据
     var option = {
         title: {
-            text: 'ECharts 入门示例'
+            text: '土地覆被图'
         },
         tooltip: {},
         legend: {
-            data:['销量']
+            data:['m²']
         },
         xAxis: {
-            data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+            data: ["农用地","建设用地","农田","养殖用地","林地","草地"]
         },
         yAxis: {},
         series: [{
-            name: '销量',
+            name: 'm²',
             type: 'bar',
             data: [5, 20, 36, 10, 10, 20]
         }]
@@ -178,5 +194,5 @@ function toast(title,content,left,top) {
     return iDiv;
 }
 function  getVideoElement( url) {
-    return '<video id="trailer"  autoplay="" loop="" crossorigin="" controls=""> <source src="http://cesiumjs.org/videos/Sandcastle/big-buck-bunny_trailer.mp4" type="video/mp4">Your browser does not support the <code>video</code> element.</video>'
+    return '<video id="trailer"  autoplay="" loop="" crossorigin="" controls=""> <source src="'+url+'" type="video/mp4">Your browser does not support the <code>video</code> element.</video>'
 }
