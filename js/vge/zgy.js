@@ -1,8 +1,8 @@
 /**
  * Created by myhom on 2017/5/15.
  */
-var position = Cesium.Cartesian3.fromDegrees(120.9184265136719, 30.84843635559082, 2);
-var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(0), Cesium.Math.toRadians(-0.0), Cesium.Math.toRadians(-90.0));
+var position = Cesium.Cartesian3.fromDegrees(120.9184265136719, 30.84843635559082,1000);
+var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(0), Cesium.Math.toRadians(-0.0), Cesium.Math.toRadians(0));
 var modelMatrix = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
 
 var entity;
