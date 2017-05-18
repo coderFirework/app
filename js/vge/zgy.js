@@ -8,18 +8,24 @@ var modelMatrix = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
 var entity;
 var isSync=false;
 
-
+var redSphere;
 function createRedSphere()
 {
-    var redSphere = viewer.entities.add({
+    var m =   Cesium.Material({
+        Image:{
+            image:"./img/play.jpg"
+        }
+    });
+    redSphere = viewer.entities.add({
         name : 'video',
         data:'http://cesiumjs.org/videos/Sandcastle/big-buck-bunny_trailer.mp4',
-        position: Cesium.Cartesian3.fromDegrees(-107.0, 40.0, 300000.0),
-        ellipsoid : {
-            radii : new Cesium.Cartesian3(300000.0, 300000.0, 300000.0),
-            material : Cesium.Color.RED.withAlpha(0.5),
-            outline : true,
-            outlineColor : Cesium.Color.BLACK
+        position: Cesium.Cartesian3.fromDegrees(120.0, 40.0, 20.0),
+        box : {
+            dimensions : new Cesium.Cartesian3(2.0, 2.0, 2.0),
+            material :"./img/play.png"
+            //material : Cesium.Color.WHITE.withAlpha(0.5)
+            //outline : true
+            //outlineColor : Cesium.Color.BLACK
         }
     });
     viewer.trackedEntity = redSphere;
@@ -51,10 +57,21 @@ function createModel(url) {
 }
 function createBillboard() {
     viewer.entities.add({
+        /*
         name:"chart",
         position:Cesium.Cartesian3.fromDegrees(120.9184265136719, 39.84843635559082, 100),
         billboard:{
             image:'./img/chart2.png',
+        }
+        */
+        name : 'chart',
+        position: Cesium.Cartesian3.fromDegrees(120, 40, 25.0),
+        box : {
+            dimensions : new Cesium.Cartesian3(2.0, 2.0, 2.0),
+            material :"./img/chart1.png"
+            //material : Cesium.Color.WHITE.withAlpha(0.5)
+            //outline : true
+            //outlineColor : Cesium.Color.BLACK
         }
     });
 }
@@ -112,6 +129,8 @@ function clickSelect() {
             }else if(pickedObject !== lastPick && pickedEntity.name=="video"){
                 var url = pickedEntity.data;
                 iDiv = toast("视频",getVideoElement(url),x,y);
+                //redSphere.model.material=document.getElementById("trailer");
+                //material :document.getElementById("trailer"),
                 iDiv.width(300);
                 iDiv.height(240);
                 syncDiv(pickedEntity,iDiv);

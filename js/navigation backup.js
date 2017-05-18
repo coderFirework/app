@@ -4,11 +4,12 @@
 var viewer = new Cesium.Viewer('cesiumContainer', {
     animation: false,
     fullscreenButton:false,
-    homeButton: true,
+    homeButton: false,
     infoBox: false,
     sceneModePicker: false,
     navigationHelpButton: false,
     timeline: false,
+    geocoder:false,
     imageryProvider : new Cesium.ArcGisMapServerImageryProvider({
         url : 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer'
     }),
@@ -19,6 +20,7 @@ var terrainProvider = new Cesium.CesiumTerrainProvider({
     requestWaterMask : true,
     requestVertexNormals : true
 });
+
 //viewer.terrainProvider = terrainProvider;
 viewer.extend(Cesium.viewerCesiumNavigationMixin, {});
 viewer._cesiumWidget._creditContainer.style.display="none";
@@ -88,7 +90,7 @@ $(document).ready(function () {
     layers.push(["ESRI影像地图", 'esri_image']);
     layers.push(["全球灯光影像地图", 'blackmarkble_image']);
     layers.push(["汶川地震信息", 'wenchuan_image']);
-    layers.push(["玉树地震信息", 'yushu_image']);
+    layers.push(["全球NDVI", 'yushu_image']);
     var source = [
 
         { icon: "js/jqwidgets-4.4.0/treePng/folder.png", label: "遥感影像图层", expanded: true, items: [
@@ -96,18 +98,21 @@ $(document).ready(function () {
             { icon: "img/tianditu.png",label: "天地图影像" },
             {icon: "img/bing.png",label:"Bing影像地图"},
             {icon: "img/esri1.png", label: "ESRI影像地图"},
-            {icon: "img/denggaung.png", label: "全球灯光影像地图"}
 
+        ]
+        },
+        { icon: "js/jqwidgets-4.4.0/treePng/folder.png", label: "时序数据展示", expanded: true, items: [
+            { icon: "img/weixing .png",label: "2011.1-2011.6全球地表短波辐射" }
         ]
         },
         {
             icon: "js/jqwidgets-4.4.0/treePng/folder.png", label:"灾害信息" ,expand:true,items:
             [
                 {
-                    icon: "js/jqwidgets-4.4.0/treePng/folder.png",label:"地震灾害信息",items:
+                    icon: "js/jqwidgets-4.4.0/treePng/folder.png",label:"遥感地图加载",items:
                     [
                         {icon: "js/jqwidgets-4.4.0/treePng/contactsIcon.png",label: "汶川地震信息"},
-                        {icon: "js/jqwidgets-4.4.0/treePng/contactsIcon.png",label:"玉树地震信息"}
+                        {icon: "js/jqwidgets-4.4.0/treePng/contactsIcon.png",label:"全球NDVI"}
                     ]
                 },
                 {icon: "js/jqwidgets-4.4.0/treePng/folder.png",label:"洪水灾害信息"}
@@ -117,9 +122,8 @@ $(document).ready(function () {
             icon: "js/jqwidgets-4.4.0/treePng/folder.png",label:"三维模型加载" ,expand:true,items:
             [
                 {icon: "img/jiashan.png",label:"嘉善地区三维模型"},
-                {icon: "img/sanweimoxing1.png",label:"其他地区的三维模型"},
-                {icon: "img/sanweimoxing1.png",label:"奥运场景三维模型"},
-                {icon: "img/sanweimoxing1.png",label:"视频流数据"}
+                {icon: "img/sanweimoxing1.png",label:"3Dtiles三维模型加载"},
+                {icon: "img/sanweimoxing1.png",label:"奥运场景三维模型"}
             ]
         }
     ];
@@ -149,23 +153,24 @@ $(document).ready(function () {
         var args = event.args;
         var item = $('#dataTree').jqxTree('getItem', args.element);
         if(item.label=="嘉善地区三维模型")
+    {
+        jiashansanweimoxing();
+
+    }
+        if(item.label=="2011.1-2011.6全球地表短波辐射")
         {
-            jiashansanweimoxing();
+            shixushujudongtaizhanshi();
 
         }
-        if(item.label=="其他地区的三维模型")
+        if(item.label=="3Dtiles三维模型加载")
         {
-
-        }
-        if(item.label=="视频流数据")
-        {
-            videoplay();
-
+            sanweimoxing();
         }
         if(item.label=="奥运场景三维模型")
         {
             aoyunchangjingsanweimoxing();
         }
+
         $.each(layers, function (key, value)
         {
 
@@ -174,8 +179,18 @@ $(document).ready(function () {
 
                 var it=viewer.scene.imageryLayers;
                 it.removeAll();
-
                 viewer.entities.removeAll();
+                viewer.dataSources.removeAll();
+                if(($(".overlayIcon").length)>0)
+                {
+                    for(var j=0;j<($(".overlayIcon").length);j++)
+                    {
+                        $(".overlayIcon").remove();
+                    }
+                }
+                $("#draggable").css("display","none");
+
+              // alert(document.getElementsByClass("overlayIcon")[0]);
                 var getImageryProvider = getImageryFromLayerName(value[1]);
 
                 if (getImageryProvider instanceof Array)
@@ -184,7 +199,6 @@ $(document).ready(function () {
                     getImageryProvider[1].alpha = 0.0;
                     getImageryProvider[2].alpha = 0.0;
                     var length = getImageryProvider.length;
-
                     for (var i = 0; i < length; i++)
                     {
 
@@ -223,50 +237,54 @@ $(document).ready(function () {
         maximumLevel: 19,
         //credit: new Cesium.Credit('天地图')
     });
-    function getLayerFromTMS(layerName) {
+    var bing = new Cesium.BingMapsImageryProvider({
+        url: 'https://dev.virtualearth.net',
+        key: Cesium.BingMapsApi.defaultKey,
+        mapStyle: Cesium.BingMapsStyle.AERIAL
+    });
+    function getLayerFromTMS(layerName)
+    {
         var layersArr = [];
-        /* var tianditu_image = new Cesium.WebMapTileServiceImageryProvider({
-         url: 'http://t0.tianditu.com/img_w/wmts',
-         layer: 'img',
-         //url: 'http://t0.tianditu.com/vec_w/wmts',
-         // layer: 'vec',
-         style: 'default',
-         format: 'tiles',
-         tileMatrixSetID: 'w',//注意web墨卡托此时是w
-         maximumLevel: 19,
-         credit: new Cesium.Credit('天地图')
-         });*/
-        //tms服务器上的图层
-        /* var TMSProvider = Cesium.TileMapServiceImageryProvider({
-         url : '../images/cesium_maptiler/Cesium_Logo_Color',
-         fileExtension: 'png',
-         maximumLevel: 4,
-         rectangle: new Cesium.Rectangle(
-         Cesium.Math.toRadians(-120.0),
-         Cesium.Math.toRadians(20.0),
-         Cesium.Math.toRadians(-60.0),
-         Cesium.Math.toRadians(40.0))
-         });
-         */
-        /*var TMSProvider = new Cesium.TileMapServiceImageryProvider({
-         url: "/map_data/" + layerName + "/",
+        layersArr.push(bing);
 
-         // url: "C:/Users/wo/PhpstormProjects/untitled2/map_data/wenchuan_image",
-         fileExtension: "png"
-         });*/
-        var TMSProvider =Cesium.TileMapServiceImageryProvider({
-            url : '/GlobalTMS',
-            credit : '北京市昌平区'
+        var NDVI =Cesium.createTileMapServiceImageryProvider
+        ({
+            url : './models/tiler2',
+            fileExtension: 'png',
+            rectangle: new Cesium.Rectangle
+            (
+                Cesium.Math.toRadians(-180.0),
+                Cesium.Math.toRadians(-90.0),
+                Cesium.Math.toRadians(179.9821780),
+                Cesium.Math.toRadians(90.0)
+            )
         });
-        //layersArr.push(tianditu_image );
-        layersArr.push(TMSProvider);
+        var TMSProvider =Cesium.createTileMapServiceImageryProvider
+        ({
+            url : './models/zhongyaPlant/zhongyaPlant',
+            fileExtension: 'png',
+            rectangle: new Cesium.Rectangle
+            (
+                Cesium.Math.toRadians(-180.0),
+                Cesium.Math.toRadians(-90.0),
+                Cesium.Math.toRadians(179.9821780),
+                Cesium.Math.toRadians(90.0)
+            )
+        });
+        if (layerName == 'yushu_image')
+        {
+            layersArr.push(NDVI);
+        }
+        if (layerName == 'wenchuan_image')
+        {
+            layersArr.push(TMSProvider);
+        }
         layersArr.push(tiandituProviderBoundary);
         layersArr.push(tiandituProviderPlaceName);
-
         return layersArr;
     }
-    function getLayerFromOuterServer(layerName) {
-
+    function getLayerFromOuterServer(layerName)
+    {
         var layersArr = [];
         var bing = new Cesium.BingMapsImageryProvider({
             url: 'https://dev.virtualearth.net',

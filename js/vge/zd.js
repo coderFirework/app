@@ -838,6 +838,77 @@ $("#clear").click(function(){
 
 
 });
+//清除图标
+$("#myremove").click(function(){
+    viewer.entities.remove(viewer.entities.getById("entity1"));
+    viewer.entities.remove(viewer.entities.getById("entity2"));
+    viewer.entities.remove(viewer.entities.getById("entity3"));
+    viewer.entities.remove(viewer.entities.getById("entity4"));
+    for(var i=0;i<arrayEntities.length;i++)
+    {
+        viewer.entities.remove(arrayEntities[i]);
+    }
+    handler.destroy();
+    handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+    entity1 = viewer.entities.add({
+        id:"entity1",
+        label: {
+            show: false,
+            showBackground: true,
+            font: '14px monospace',
+            horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
+            verticalOrigin: Cesium.VerticalOrigin.TOP,
+            pixelOffset: new Cesium.Cartesian2(15, 0),
+            fillColor:Cesium.Color.YELLOW,
+        }
+    });
+    entity2 = viewer.entities.add({
+        id:"entity2",
+        label: {
+            show: false,
+            showBackground: true,
+            font: '14px monospace',
+            horizontalOrigin: Cesium.HorizontalOrigin.RIGHT,
+            verticalOrigin: Cesium.VerticalOrigin.TOP,
+            pixelOffset: new Cesium.Cartesian2(15, 0),
+            fillColor:Cesium.Color.YELLOW,
+        }
+    });
+    entity3 = viewer.entities.add({
+        id:"entity3",
+        label: {
+            show: false,
+            showBackground: true,
+            font: '14px monospace',
+            horizontalOrigin: Cesium.HorizontalOrigin.RIGHT,
+            verticalOrigin: Cesium.VerticalOrigin.TOP,
+            pixelOffset: new Cesium.Cartesian2(15, 0),
+            fillColor:Cesium.Color.YELLOW,
+        }
+    });
+    entity4 = viewer.entities.add({
+        id:"entity4",
+        label: {
+            show: false,
+            showBackground: true,
+            font: '14px monospace',
+            horizontalOrigin: Cesium.HorizontalOrigin.RIGHT,
+            verticalOrigin: Cesium.VerticalOrigin.TOP,
+            pixelOffset: new Cesium.Cartesian2(15, 0),
+            fillColor:Cesium.Color.YELLOW,
+        }
+    });
+
+
+});
+//返回主场景
+$("#flytohome").click(function () {
+    viewer.camera.flyTo({
+        destination: Cesium.Cartesian3.fromDegrees(103, 32 , 20000000),
+
+        duration: 0
+    });
+});
 
 //图标加载
 $(document).ready(function () {

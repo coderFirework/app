@@ -34,8 +34,10 @@
     display:none;
 }
 #symbol img{
-    height: 35px;
-    width: 35px;
+    height: 32px;
+    width: 32px;
+    margin-right: 2px;
+    background-color: #3E4752;
 }
 #symbol img:hover {
     cursor: pointer;
@@ -56,4 +58,10 @@
 .symbol{
     float: right;
     background: #252525;
+}
+#cityName{
+    height: 32px;
+}
+#r-result{
+    height: 32px;
 }

@@ -3,6 +3,16 @@
  */
 function jiashansanweimoxing() {
     viewer.entities.removeAll();
+    viewer.dataSources.removeAll();
+    $("#draggable").css("display","none");
+    if(($(".overlayIcon").length)>0)
+    {
+        for(var j=0;j<($(".overlayIcon").length);j++)
+        {
+            $(".overlayIcon").remove();
+        }
+    }
+
     var scene = viewer.scene;
     var globe = scene.globe;
     var camera = viewer.scene.camera;
@@ -18,7 +28,7 @@ function jiashansanweimoxing() {
         mousePosition = event.endPosition;
     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
     function loadmodel(files) {
-        var position = Cesium.Cartesian3.fromDegrees(120.9184265136719, 30.84843635559082, 2);
+        var position = Cesium.Cartesian3.fromDegrees(120.9184265136719, 30.84843635559082, -100);
         var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(0), Cesium.Math.toRadians(-0.0), Cesium.Math.toRadians(-90.0));
         var modelMatrix = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
         /*
@@ -41,7 +51,7 @@ function jiashansanweimoxing() {
                 model: {
                     uri: url,
                     minimumPixelSize: 1,
-                    scale: 1
+                    scale: 0.2
                 }
             });
         }
@@ -60,6 +70,16 @@ function jiashansanweimoxing() {
 function aoyunchangjingsanweimoxing() {
     // viewer.scene.globe.enableLighting = true;
     viewer.entities.removeAll();
+    $("#draggable").css("display","none");
+    viewer.dataSources.removeAll();
+    if(($(".overlayIcon").length)>0)
+    {
+        for(var j=0;j<($(".overlayIcon").length);j++)
+        {
+            $(".overlayIcon").remove();
+        }
+    }
+
     var scene = viewer.scene;
     var globe = scene.globe;
 
@@ -121,20 +141,32 @@ function aoyunchangjingsanweimoxing() {
         duration: 0
     });
 }
-function sanweimoxing() {
+function sanweimoxing()
+{
     // viewer.scene.globe.enableLighting = true;
     viewer.entities.removeAll();
+    viewer.dataSources.removeAll();
+    $("#draggable").css("display","none");
+    if(($(".overlayIcon").length)>0)
+    {
+        for(var j=0;j<($(".overlayIcon").length);j++)
+        {
+            $(".overlayIcon").remove();
+        }
+    }
+
     var scene = viewer.scene;
     var globe = scene.globe;
-
     var camera = viewer.scene.camera;
     var mousePosition;
     var ellipsoid = scene.globe.ellipsoid;
-    $.getJSON("getfiles1.php", function (data)
+    /*
+    $.getJSON("getfiles2.php", function (data)
     {
-
         loadmodel(data);
     });
+    */
+    loadmodel(["./models/SceneX/tileset.json"]);
     var eventHandler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
 
     eventHandler.setInputAction(function (event) {
@@ -142,26 +174,41 @@ function sanweimoxing() {
     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
     function loadmodel(files)
     {
-        for (var i = 0, l = files.length; i < l; i++) {
-            alert(files[i]);
+
+        for (var i = 0, l = files.length; i < l; i++)
+        {
             createModel(files[i]);
         }
 //            createModel(files);
         function createModel(url)
 
         {
-            var tileset = viewer.scene.primitives.add(new Cesium.Cesium3DTileset({
-                url: url,
+             var position = Cesium.Cartesian3.fromDegrees(116.39433333, 39.90843333, 100);
+            //var position = Cesium.Cartesian3.fromDegrees(112.60109, 37.99234, 100);
+            // var position = Cesium.Cartesian3.fromDegrees(11, 3, 0);
+
+            //alert(position);
+            // var hpr=Cesium.HeadingPitchRoll.fromDegrees(0,-180,180);
+            var hpr=Cesium.HeadingPitchRoll.fromDegrees(0,-150,135);
+           var matrix=Cesium.Matrix3.fromHeadingPitchRoll(hpr);
+
+            //var v = [1.0, 0, 0, 0, 1.0, 0.0, 0.0, 0.0, 1.0];
+            //var m = Cesium.Matrix3.fromArray(v);
+            //var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(0), Cesium.Math.toRadians(-0.0), Cesium.Math.toRadians(0.0));
+            //alert(matrix);
+            var tileset = viewer.scene.primitives.add(
+                new Cesium.Cesium3DTileset({
+                url:url,
                 maximumScreenSpaceError: 2,
-                maximumNumberOfLoadedTiles: 1000,
-                // modelMatrix: Cesium.Matrix4.fromTranslation(Cesium.Cartesian3.fromDegrees(101.5030614, 25.05679125, 1844.50133), new Cesium.Matrix4())
-
-
+               maximumNumberOfLoadedTiles: 1000,
+              modelMatrix: Cesium.Matrix4.fromRotationTranslation(matrix,  position, new Cesium.Matrix4())
+           //modelMatrix: Cesium.Matrix4.fromTranslation(position, new Cesium.Matrix4())
             }));
+           // alert( url);
         }
     }
     viewer.camera.flyTo({
-        destination: Cesium.Cartesian3.fromDegrees(116.39333333, 39.90833333, 500),
+        destination: Cesium.Cartesian3.fromDegrees(116.39433333, 39.90833333, 500),
         orientation:
             {
                 up: new Cesium.Cartesian3(-0.23472675952122293, 0.6533781396365526, 0.7197224152472318), //target
@@ -170,3 +217,4 @@ function sanweimoxing() {
         duration: 0
     });
 }
+

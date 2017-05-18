@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" >
+<Folder>
+	<name>全球地表短波净辐射</name>
+	<open>0</open>
+<!-- 
+	<Caption>
+		<name>全球地表短波净辐射</name>
+		<FontSize>30</FontSize>
+		<screenXY x="0.5" y="1" xunits="fraction" yunits="fraction"/>
+	</Caption>
+-->
+
+	<ScreenOverlay id="1">
+		<name>caption</name>
+		<Icon>
+			<href>shortwave-net.png</href>
+		</Icon>
+		<overlayXY x="0.5" y="1" xunits="fraction" yunits="fraction"/>
+		<screenXY x="0.5" y="1" xunits="fraction" yunits="fraction"/>
+		<size x="650" y="66" xunits="pixels" yunits="pixels"/>
+	</ScreenOverlay>
+	<ScreenOverlay id="1">
+		<name>Legend</name>
+		<Icon>
+			<href>legend.png</href>
+		</Icon>
+		<overlayXY x="1" y="0" xunits="fraction" yunits="fraction"/>
+		<screenXY x="1" y="0" xunits="fraction" yunits="fraction"/>
+		<size x="534" y="44" xunits="pixels" yunits="pixels"/>
+	</ScreenOverlay>
+	
+	<Folder>
+                  <name>globe_Rad_apr1999_net_RGB_png</name>
+		<GroundOverlay id="1">
+			<name>globe_Rad_apr1999_net_RGB_png</name>
+			<TimeSpan>
+				<begin>2011-01</begin>
+				<end>2011-01-30</end>
+			</TimeSpan>
+			<Icon>
+				<href>globe_Rad_apr1999_net_RGB_png.png</href>
+			</Icon>
+			<!--  LatLonBox 范围须在[90,-90,180,-180]内-->
+			<LatLonBox>
+				<north>60</north>
+				<south>-60</south>
+				<east>180</east>
+				<west>-180</west>
+			</LatLonBox>
+		</GroundOverlay>
+	</Folder>
+
+	<Folder>
+                  <name>globe_Rad_apr2000_net_RGB_png</name>
+		<GroundOverlay id="1">
+			<name>globe_Rad_apr2000_net_RGB_png</name>
+			<TimeSpan>
+				<begin>2011-02</begin>
+				<end>2011-02-27</end>
+			</TimeSpan>
+			<Icon>
+				<href>globe_Rad_apr2000_net_RGB_png.png</href>
+			</Icon>
+			<!--  LatLonBox 范围须在[90,-90,180,-180]内-->
+			<LatLonBox>
+				<north>60</north>
+				<south>-60</south>
+				<east>180</east>
+				<west>-180</west>
+			</LatLonBox>
+		</GroundOverlay>
+         </Folder>
+
+	<Folder>
+                  <name>globe_Rad_aug1999_net_RGB_png</name>
+		<GroundOverlay id="1">
+			<name>globe_Rad_aug1999_net_RGB_png</name>
+			<TimeSpan>
+				<begin>2011-03</begin>
+				<end>2011-03-30</end>
+			</TimeSpan>
+			<Icon>
+				<href>globe_Rad_aug1999_net_RGB_png.png</href>
+			</Icon>
+			<!--  LatLonBox 范围须在[90,-90,180,-180]内-->
+			<LatLonBox>
+				<north>60</north>
+				<south>-60</south>
+				<east>180</east>
+				<west>-180</west>
+			</LatLonBox>
+		</GroundOverlay>
+         </Folder>
+
+	<Folder>
+                  <name>globe_Rad_aug2000_net_RGB_png</name>
+		<GroundOverlay id="1">
+			<name>globe_Rad_aug2000_net_RGB_png</name>
+			<TimeSpan>
+				<begin>2011-04</begin>
+				<end>2011-04-30</end>
+			</TimeSpan>
+			<Icon>
+				<href>globe_Rad_aug2000_net_RGB_png.png</href>
+			</Icon>
+			<!--  LatLonBox 范围须在[90,-90,180,-180]内-->
+			<LatLonBox>
+				<north>60</north>
+				<south>-60</south>
+				<east>180</east>
+				<west>-180</west>
+			</LatLonBox>
+		</GroundOverlay>
+         </Folder>
+
+	<Folder>
+                  <name>globe_Rad_dec1999_net_RGB_png</name>
+		<GroundOverlay id="1">
+			<name>globe_Rad_dec1999_net_RGB_png</name>
+			<TimeSpan>
+				<begin>2011-05</begin>
+				<end>2011-05-30</end>
+			</TimeSpan>
+			<Icon>
+				<href>globe_Rad_dec1999_net_RGB_png.png</href>
+			</Icon>
+			<!--  LatLonBox 范围须在[90,-90,180,-180]内-->
+			<LatLonBox>
+				<north>60</north>
+				<south>-60</south>
+				<east>180</east>
+				<west>-180</west>
+			</LatLonBox>
+		</GroundOverlay>
+         </Folder>
+
+	<Folder>
+                  <name>globe_Rad_dec2000_net_RGB_png</name>
+		<GroundOverlay id="1">
+			<name>globe_Rad_dec2000_net_RGB_png</name>
+			<TimeSpan>
+				<begin>2011-06</begin>
+				<end>2011-06-30</end>
+			</TimeSpan>
+			<Icon>
+				<href>globe_Rad_dec2000_net_RGB_png.png</href>
+			</Icon>
+			<!--  LatLonBox 范围须在[90,-90,180,-180]内-->
+			<LatLonBox>
+				<north>60</north>
+				<south>-60</south>
+				<east>180</east>
+				<west>-180</west>
+			</LatLonBox>
+		</GroundOverlay>
+         </Folder>
+
+</Folder>
+</kml>
