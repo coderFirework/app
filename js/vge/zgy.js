@@ -1,52 +1,66 @@
 /**
  * Created by myhom on 2017/5/15.
  */
-var position = Cesium.Cartesian3.fromDegrees(120.9184265136719, 30.84843635559082, 2);
-var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(0), Cesium.Math.toRadians(-0.0), Cesium.Math.toRadians(-90.0));
+var position = Cesium.Cartesian3.fromDegrees(120, 40, 0);
+var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(0), Cesium.Math.toRadians(-0.0), Cesium.Math.toRadians(0));
 var modelMatrix = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
 
-var entity;
+//var entity;
 var isSync=false;
 
-var redSphere;
-function createRedSphere()
+var videoEntity;
+var chartEntity;
+var buildingEntity;
+
+function createVideoCube()
 {
+    if (videoEntity != undefined){
+        viewer.zoomTo(videoEntity);
+        return;
+    }
     var m =   Cesium.Material({
         Image:{
             image:"./img/play.jpg"
         }
     });
-    redSphere = viewer.entities.add({
+    videoEntity = viewer.entities.add({
         name : 'video',
         data:'http://cesiumjs.org/videos/Sandcastle/big-buck-bunny_trailer.mp4',
-        position: Cesium.Cartesian3.fromDegrees(120.0, 40.0, 20.0),
+        position: Cesium.Cartesian3.fromDegrees(116.378, 40.0033, 30),
         box : {
-            dimensions : new Cesium.Cartesian3(2.0, 2.0, 2.0),
+            dimensions : new Cesium.Cartesian3(10.0, 10.0, 10.0),
             material :"./img/play.png"
             //material : Cesium.Color.WHITE.withAlpha(0.5)
             //outline : true
             //outlineColor : Cesium.Color.BLACK
         }
     });
-    viewer.trackedEntity = redSphere;
+    //viewer.trackedEntity = redSphere;
+    viewer.zoomTo(videoEntity);
 }
-createRedSphere();
+
 function createModel(url) {
-    entity = viewer.entities.add({
+    if (buildingEntity != undefined){
+        viewer.zoomTo(buildingEntity);
+        return;
+    }
+    buildingEntity = viewer.entities.add({
         name: 'building',
         data:"test",
-        position: position,
+        position: Cesium.Cartesian3.fromDegrees(116.378, 40.004, 0),
         orientation: modelMatrix,
         model: {
             uri: url,
             minimumPixelSize: 1,
-            scale: 1
+            scale: 0.1
             //color : getColor(viewModel.color, viewModel.alpha),
             //colorBlendMode : getColorBlendMode(viewModel.colorBlendMode)
         }
     });
+    viewer.zoomTo(buildingEntity);
+    /*
     viewer.camera.flyTo({
-        destination: Cesium.Cartesian3.fromDegrees(120.9184265136719, 30.84843635559082, 3),
+        destination: Cesium.Cartesian3.fromDegrees(116.378,40.005,30),
         orientation:
             {
                 up: new Cesium.Cartesian3(-0.23472675952122293, 0.6533781396365526, 0.7197224152472318), //target
@@ -54,9 +68,14 @@ function createModel(url) {
             },
         duration: 0
     });
+    */
 }
-function createBillboard() {
-    viewer.entities.add({
+function createEcharts() {
+    if (chartEntity != undefined){
+        viewer.zoomTo(chartEntity);
+        return;
+    }
+    chartEntity = viewer.entities.add({
         /*
         name:"chart",
         position:Cesium.Cartesian3.fromDegrees(120.9184265136719, 39.84843635559082, 100),
@@ -65,18 +84,17 @@ function createBillboard() {
         }
         */
         name : 'chart',
-        position: Cesium.Cartesian3.fromDegrees(120, 40, 25.0),
+        position: Cesium.Cartesian3.fromDegrees(116.379, 40.0033, 30),
         box : {
-            dimensions : new Cesium.Cartesian3(2.0, 2.0, 2.0),
+            dimensions : new Cesium.Cartesian3(15.0, 15.0, 15.0),
             material :"./img/chart1.png"
             //material : Cesium.Color.WHITE.withAlpha(0.5)
             //outline : true
             //outlineColor : Cesium.Color.BLACK
         }
     });
+    viewer.zoomTo(chartEntity);
 }
-createBillboard();
-createModel("./models/jianzhuwu.gltf");
 var lastPick;
 var lastModel;
 var po;
@@ -107,7 +125,7 @@ function clickSelect() {
 
             if (pickedObject !== lastPick && pickedEntity.name=="building") {
 
-                var content='<p><b>名称</b>:飞机</p></br> <p><b>经度</b>:120.17</p></br> <p><b>纬度</b>:39.04</p>';
+                var content='<p><b>名称</b>:居民楼</p></br> <p><b>经度</b>:116.378</p></br> <p><b>纬度</b>:40.0033</p>';
                 iDiv = toast("三维模型",content,x,y);
                 syncDiv(pickedEntity,iDiv);
                 pickedEntity.model.color=Cesium.Color.YELLOW

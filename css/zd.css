@@ -65,3 +65,8 @@
 #r-result{
     height: 32px;
 }
+.cityName{
+    width: 180px;
+    height: 38px;
+    display: inline;
+}

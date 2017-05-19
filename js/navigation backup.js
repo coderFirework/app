@@ -123,7 +123,10 @@ $(document).ready(function () {
             [
                 {icon: "img/jiashan.png",label:"嘉善地区三维模型"},
                 {icon: "img/sanweimoxing1.png",label:"3Dtiles三维模型加载"},
-                {icon: "img/sanweimoxing1.png",label:"奥运场景三维模型"}
+                {icon: "img/sanweimoxing1.png",label:"奥运场景三维模型"},
+                {icon: "img/building.png",label:"居民楼"},
+                {icon: "img/play.png",label:"视频"},
+                {icon: "img/chart1.png",label:"图表"}
             ]
         }
     ];
@@ -165,6 +168,16 @@ $(document).ready(function () {
         if(item.label=="3Dtiles三维模型加载")
         {
             sanweimoxing();
+
+        }
+        if(item.label=="居民楼"){
+            createModel("./models/jianzhuwusmall.gltf");
+        }
+        if (item.label=="视频"){
+            createVideoCube();
+        }
+        if (item.label=="图表"){
+            createEcharts();
         }
         if(item.label=="奥运场景三维模型")
         {
